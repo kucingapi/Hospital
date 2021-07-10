@@ -1,6 +1,9 @@
 const express = require('express');
 const {connect} = require('mongoose');
 
+// routes
+
+// variable
 const env = require('dotenv').config();
 const uri = env.parsed.uri;
 const app = express();
