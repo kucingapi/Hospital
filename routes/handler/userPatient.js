@@ -10,7 +10,7 @@ const addingUser = async (req,res) => {
 		first_name: body.first_name,
 		last_name: body.last_name,
 		age: body.age,
-		password: hashingPassword(body.password),
+		password: await hashingPassword(body.password),
 		roles:'User'
 	});
 
@@ -20,7 +20,9 @@ const addingUser = async (req,res) => {
 			res.send({
 				status:'success',
 				message:'user created successfully',
-				detail: result
+				detail: 
+				{id:result.id,
+				email:result.email}
 			});
 		})
 		.catch((err) =>{
