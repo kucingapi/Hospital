@@ -32,4 +32,18 @@ const AppointmentValidation = (body) => {
 
 	return validation;
 }
-module.exports = {UserSchemaValidation,LoginSchemaValidation,AppointmentValidation};
+
+const AppointmentUpdateValidation = (body) => {
+	const validateUser = Joi.object({
+		name: Joi.string().min(2),
+		description: Joi.string().min(10),
+		registrants: Joi.array().items(Joi.string())
+	});
+	const validation = validateUser.validate(body) 
+
+	return validation;
+}
+module.exports = {UserSchemaValidation,
+				  LoginSchemaValidation,
+				  AppointmentValidation,
+				  AppointmentUpdateValidation};
