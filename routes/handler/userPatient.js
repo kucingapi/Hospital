@@ -1,5 +1,6 @@
+const mongoose = require('mongoose');
 const User = require('../../models/User');
-const hashingPassword = require('./hashingPassword');
+const {hashingPassword, passwordValidation} = require('./encryptPassword');
 
 
 const addingUser = async (req,res) => {
@@ -29,10 +30,39 @@ const addingUser = async (req,res) => {
 			res.status(400);
 			res.send({
 				status:'failed',
-				message:'Username Has been taken',
+				message:'username/email Has been taken',
 				detail: err
 			});
 		})
 }
 
-module.exports = {addingUser};
+const loginUser = async (req,res) => {
+	const body = req.body;
+	const user = await User.findOne({id:body.id});
+	if(!user){
+		res.send({
+			status:'failed',
+			message:'username does not exist',
+		})
+		res.status(400);
+		return null;
+	}
+	const isPasswordValid = await passwordValidation(body.password,user.password);
+
+	if(isPasswordValid){
+		res.send({
+			status:'successfull login',
+			message: 'you are logged in'
+		});
+		res.status(200);
+		return null;
+	}
+
+	res.send({
+		status:'failed',
+		message:'password is invalid',
+	})
+	res.status(403);
+}
+
+module.exports = {addingUser,loginUser};

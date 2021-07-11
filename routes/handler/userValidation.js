@@ -1,25 +1,39 @@
-
-const {UserSchemaValidation} = require('../../validation');
+const {UserSchemaValidation,LoginSchemaValidation} = require('../../validation');
 
 function validation(body, validate){
 	const validation = validate(body).error;
 	return validation;
 }
 
-const UserValidation = (req,res,next)=>{
+const RegisterValidation = (req,res,next)=>{
 	const body = req.body;
-	const validate = validation(body,UserSchemaValidation);
+	const error = validation(body,UserSchemaValidation);
 
-	if(!validate){
+	if(!error){
 		next();
 	}
 	else{
 		res.send({
 			status:'failed',
-			message:validate.details[0].message
+			message:error.details[0].message
 		});
 		res.status(400);
 	}
 };
 
-module.exports = UserValidation;
+const LoginValidation = (req,res,next)=>{
+	const body = req.body;
+	const error = validation(body,LoginSchemaValidation);
+
+	if(!error){
+		next();
+	}
+	else{
+		res.send({
+			status:'failed',
+			message:error.details[0].message
+		});
+		res.status(400);
+	}
+};
+module.exports = {RegisterValidation,LoginValidation};

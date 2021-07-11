@@ -1,9 +1,10 @@
 const express = require('express');
-const { addingUser } = require('./handler/userPatient');
-const userValidation = require('./handler/userValidation');
+const { addingUser, loginUser } = require('./handler/userPatient');
+const {RegisterValidation, LoginValidation} = require('./handler/userValidation');
 const router = express.Router();
 
 
-router.post('/register',userValidation,addingUser);
+router.post('/register',RegisterValidation,addingUser);
+router.post('/login',LoginValidation,loginUser);
 
 module.exports = router;
