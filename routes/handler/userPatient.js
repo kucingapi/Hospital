@@ -1,10 +1,6 @@
 const User = require('../../models/User');
 const hashingPassword = require('./hashingPassword');
 
-const checkingUser = async (req,res,next) => {
-	const body = req.body;
-	
-}
 
 const addingUser = async (req,res) => {
 	const body = req.body;

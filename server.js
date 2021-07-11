@@ -15,9 +15,14 @@ async function startApp(){
 	try{
 		app.use(express.json());
 		app.use('/auth',autentication);
-		const db = await mongoose.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true },()=>{
+		// Mongoose
+		mongoose.set('useNewUrlParser', true);
+		mongoose.set('useFindAndModify', false);
+		mongoose.set('useCreateIndex', true);
+		mongoose.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true },()=>{
 			console.log("data base connected");
 		});
+
 		app.listen(port, () =>{
 			console.log(`http://localhost:${port}`);
 		});
