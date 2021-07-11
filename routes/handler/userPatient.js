@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
+const env = require('dotenv').config();
 const {hashingPassword, passwordValidation} = require('./encryptPassword');
 
 
@@ -50,9 +52,15 @@ const loginUser = async (req,res) => {
 	const isPasswordValid = await passwordValidation(body.password,user.password);
 
 	if(isPasswordValid){
+
+		const TOKEN_SECRET = env.parsed.TOKEN_SECRET;
+
+		const token = jwt.sign({_id: user._id},TOKEN_SECRET);
+		res.header('auth-token',token);
 		res.send({
 			status:'successfull login',
-			message: 'you are logged in'
+			message: 'you are logged in',
+			token:token
 		});
 		res.status(200);
 		return null;
