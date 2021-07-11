@@ -1,6 +1,15 @@
 const User = require('../../models/User')
 const Appointment = require('../../models/Appointment');
 
+function isAppointmentExist(appointment,res){
+	if(!appointment){
+		return res.status(400).send({
+				status:'failed',
+				message:'appointment doesnt exist'
+		});
+	}
+}
+
 const creatingAppointment = async (req,res) => {
 	// console.log(req.user.roles);
 	const body = req.body;
@@ -39,12 +48,8 @@ const updatingAppointment = async (req,res) => {
 		}
 	}
 
-	if(!appointment){
-		return res.status(400).send({
-				status:'failed',
-				message:'user doesnt exist'
-		});
-	}
+	if(isAppointmentExist(appointment,res)) return null;
+
 	changeAppointment(body.name,'name');
 	changeAppointment(body.description,'description');
 	changeAppointment(body.registrants,'registrants');
@@ -66,8 +71,18 @@ const updatingAppointment = async (req,res) => {
 				detail: err
 			});
 		})
-
-
 }
 
-module.exports = {creatingAppointment,updatingAppointment};
+const deletingAppointment = async (req,res) => {
+	const id = req.params._id;
+	const appointment = await Appointment.findOne({_id: id});
+	if(isAppointmentExist(appointment,res)) return null;
+	const message = await Appointment.deleteOne({_id: id});
+
+	res.send({
+		status:'success',
+		message:'appointment deleted successfully',
+		detail: message
+	});
+}
+module.exports = {creatingAppointment,updatingAppointment,deletingAppointment};

@@ -1,6 +1,6 @@
 const express = require('express');
 const { auth } = require('./handler/user');
-const {creatingAppointment, updatingAppointment} = require('./handler/appointment');
+const {creatingAppointment, updatingAppointment, deletingAppointment} = require('./handler/appointment');
 
 const {creatingAppointmentValidation, updatingAppointmentValidation} = require('./validation/appointmentValidation');
 const router = express.Router();
@@ -19,5 +19,6 @@ router.use(auth);
 router.use(userIsAnAdmin);
 router.post('/',creatingAppointmentValidation,creatingAppointment);
 router.put('/:_id',updatingAppointmentValidation,updatingAppointment);
+router.delete('/:_id',deletingAppointment);
 
 module.exports = router;
