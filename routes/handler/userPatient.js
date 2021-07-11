@@ -4,6 +4,7 @@ const User = require('../../models/User');
 const env = require('dotenv').config();
 const {hashingPassword, passwordValidation} = require('./encryptPassword');
 
+const TOKEN_SECRET = env.parsed.TOKEN_SECRET;
 
 const addingUser = async (req,res) => {
 	const body = req.body;
@@ -14,7 +15,7 @@ const addingUser = async (req,res) => {
 		last_name: body.last_name,
 		age: body.age,
 		password: await hashingPassword(body.password),
-		roles:'User'
+		roles:'user'
 	});
 
 	newUser.save()
@@ -53,9 +54,7 @@ const loginUser = async (req,res) => {
 
 	if(isPasswordValid){
 
-		const TOKEN_SECRET = env.parsed.TOKEN_SECRET;
-
-		const token = jwt.sign({_id: user._id},TOKEN_SECRET);
+		const token = jwt.sign({_id: user._id,roles:user.roles},TOKEN_SECRET);
 		res.header('auth-token',token);
 		res.send({
 			status:'successfull login',
@@ -73,4 +72,27 @@ const loginUser = async (req,res) => {
 	res.status(403);
 }
 
-module.exports = {addingUser,loginUser};
+const auth = (req,res,next) => {
+	const token = req.header('auth-token');
+	// res.send(token)
+	if(!token) return res.status(401).send({
+		status:'failed',
+		message:'Access Denied',
+	});
+	try{
+		const verified = jwt.verify(token,TOKEN_SECRET)
+		
+		res.send({
+			status:'success',
+			message: verified
+		});
+		next();
+	}
+	catch(err){
+		return res.status(401).send({
+				status:'failed',
+				message:'Access Denied',
+		});
+	}
+}
+module.exports = {addingUser,loginUser,auth};
