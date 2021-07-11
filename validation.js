@@ -13,6 +13,7 @@ const UserSchemaValidation = (body) => {
 
 	return validation;
 }
+
 const LoginSchemaValidation = (body) => {
 	const validateUser = Joi.object({
 		username: Joi.string().min(3).required(),
@@ -22,5 +23,13 @@ const LoginSchemaValidation = (body) => {
 
 	return validation;
 }
+const AppointmentValidation = (body) => {
+	const validateUser = Joi.object({
+		name: Joi.string().min(2).required(),
+		description: Joi.string().min(10).required()
+	});
+	const validation = validateUser.validate(body) 
 
-module.exports = {UserSchemaValidation,LoginSchemaValidation};
+	return validation;
+}
+module.exports = {UserSchemaValidation,LoginSchemaValidation,AppointmentValidation};

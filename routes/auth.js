@@ -1,6 +1,6 @@
 const express = require('express');
 const { addingUser, loginUser} = require('./handler/user');
-const {RegisterValidation, LoginValidation} = require('./handler/userValidation');
+const {RegisterValidation, LoginValidation} = require('./validation/userValidation');
 const router = express.Router();
 
 

@@ -41,7 +41,8 @@ const addingUser = async (req,res) => {
 
 const loginUser = async (req,res) => {
 	const body = req.body;
-	const user = await User.findOne({id:body.id});
+	const user = await User.findOne({_id:body.username});
+	console.log(user);
 	if(!user){
 		res.send({
 			status:'failed',
@@ -81,10 +82,12 @@ const auth = (req,res,next) => {
 	});
 	try{
 		const verified = jwt.verify(token,TOKEN_SECRET)
-		res.send({
-			status:'success',
-			message: verified
-		});
+		// console.log(verified);
+		req.user = verified;
+		// res.send({
+		// 	status:'success',
+		// 	message: verified
+		// });
 		next();
 	}
 	catch(err){
