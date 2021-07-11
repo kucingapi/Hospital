@@ -1,7 +1,8 @@
 const express = require('express');
-const {connect} = require('mongoose');
+const mongoose = require('mongoose');
 
 // routes
+const autentication = require('./routes/auth')
 
 // variable
 const env = require('dotenv').config();
@@ -13,9 +14,9 @@ const port = 3000;
 async function startApp(){
 	try{
 		app.use(express.json());
-
-		const db = await connect(uri,{useFindAndModify:true,useUnifiedTopology:true,useNewUrlParser:true}).then(()=>{
-			console.log('databse connected');
+		app.use('/auth',autentication);
+		const db = await mongoose.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true },()=>{
+			console.log("data base connected");
 		});
 		app.listen(port, () =>{
 			console.log(`http://localhost:${port}`);
@@ -23,7 +24,7 @@ async function startApp(){
 	}
 	catch(err){
 		console.log(err);
-		startApp();
+		// startApp();
 	}
 }
 startApp();
