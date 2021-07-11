@@ -81,7 +81,6 @@ const auth = (req,res,next) => {
 	});
 	try{
 		const verified = jwt.verify(token,TOKEN_SECRET)
-		
 		res.send({
 			status:'success',
 			message: verified
