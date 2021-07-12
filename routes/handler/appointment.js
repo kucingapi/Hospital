@@ -87,7 +87,14 @@ const deletingAppointment = async (req,res) => {
 }
 const getAppointment = async (req,res) => {
 	const id = req.params._id;
-	const appointment = await Appointment.findOne({_id: id});
+	const appointment = await Appointment.findOne({_id: id})
+		.catch((err)=>{
+			res.status(400).send({
+				status:"failed",
+				message:"the appointments id doesnt exist",
+				error: err
+			});
+		});
 	if(isAppointmentExist(appointment,res)) return null;
 	res.send({
 		status:'success',

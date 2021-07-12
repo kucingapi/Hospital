@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 // routes
 const autentication = require('./routes/auth')
 const appointment = require('./routes/appointment')
+const patient = require('./routes/patient')
 
 // variable
 const env = require('dotenv').config();
@@ -17,7 +18,8 @@ async function startApp(){
 		app.use(express.json());
 		// Routes
 		app.use('/auth',autentication);
-		app.use('/appointment',appointment);
+		app.use('/admin/appointment',appointment);
+		app.use('/dashboard',patient);
 		// Mongoose
 		mongoose.set('useNewUrlParser', true);
 		mongoose.set('useFindAndModify', false);
