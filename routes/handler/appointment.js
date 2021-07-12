@@ -85,4 +85,15 @@ const deletingAppointment = async (req,res) => {
 		detail: message
 	});
 }
-module.exports = {creatingAppointment,updatingAppointment,deletingAppointment};
+const getAppointment = async (req,res) => {
+	const id = req.params._id;
+	const appointment = await Appointment.findOne({_id: id});
+	if(isAppointmentExist(appointment,res)) return null;
+	res.send({
+		status:'success',
+		message:'appointment exist',
+		registrants: appointment.registrants,
+		detail: appointment
+	});
+}
+module.exports = {creatingAppointment,updatingAppointment,deletingAppointment,getAppointment};

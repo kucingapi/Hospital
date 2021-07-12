@@ -1,8 +1,12 @@
 const express = require('express');
 const { auth } = require('./handler/user');
-const {creatingAppointment, updatingAppointment, deletingAppointment} = require('./handler/appointment');
+const {creatingAppointment, 
+	   updatingAppointment, 
+	   deletingAppointment,
+	   getAppointment} = require('./handler/appointment');
 
-const {creatingAppointmentValidation, updatingAppointmentValidation} = require('./validation/appointmentValidation');
+const {creatingAppointmentValidation,
+	   updatingAppointmentValidation} = require('./validation/appointmentValidation');
 const router = express.Router();
 
 function userIsAnAdmin(req,res,next){
@@ -20,5 +24,6 @@ router.use(userIsAnAdmin);
 router.post('/',creatingAppointmentValidation,creatingAppointment);
 router.put('/:_id',updatingAppointmentValidation,updatingAppointment);
 router.delete('/:_id',deletingAppointment);
+router.get('/:_id',getAppointment);
 
 module.exports = router;
