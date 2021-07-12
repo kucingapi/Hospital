@@ -8,7 +8,7 @@ const patient = require('./routes/patient')
 
 // variable
 const env = require('dotenv').config();
-const uri = env.parsed.uri;
+const uri = process.env.uri || env.parsed.uri;
 const app = express();
 const port = process.env.PORT||3000;
 
