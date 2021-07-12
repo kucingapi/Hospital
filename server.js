@@ -10,7 +10,7 @@ const patient = require('./routes/patient')
 const env = require('dotenv').config();
 const uri = env.parsed.uri;
 const app = express();
-const port = 3000;
+const port = process.env.PORT||3000;
 
 
 async function startApp(){
