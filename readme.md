@@ -49,4 +49,4 @@ npm start
 ### Api endpoint
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/cf70c5dbc5fcf086b37f?action=collection%2Fimport)
 ### Default Url
-localhost:3000
+`localhost:3000/`
