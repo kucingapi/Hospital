@@ -16,6 +16,12 @@ const port = process.env.PORT||3000;
 async function startApp(){
 	try{
 		app.use(express.json());
+		app.all('/', function(req, res, next) {
+			res.header("Access-Control-Allow-Origin", "*");
+			res.header("Access-Control-Allow-Headers", "X-Requested-With");
+			next();
+		});
+
 		// Routes
 		app.get('/',(req,res)=>{
 			res.send({message:'this is home'})

@@ -4,7 +4,7 @@ const User = require('../../models/User');
 const env = require('dotenv').config();
 const {hashingPassword, passwordValidation} = require('./encryptPassword');
 
-const TOKEN_SECRET = env.parsed.TOKEN_SECRET;
+const TOKEN_SECRET = process.env.TOKEN_SECRET|| env.parsed.TOKEN_SECRET;
 
 const addingUser = async (req,res) => {
 	const body = req.body;
