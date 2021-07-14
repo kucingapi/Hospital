@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const User = require('./models/User');
+const Appointment = require('./models/Appointment');
 
 // routes
 const autentication = require('./routes/auth');
@@ -24,6 +26,24 @@ async function startApp(){
 		// Routes
 		app.get('/',(req,res)=>{
 			res.send({message:'this is home'})
+		})
+		app.get('/checkHealth',async (req,res)=>{
+			try{
+				const userDatabase = await User.findOne();
+				const appointmentDatabase= await Appointment.findOne();
+				res.status(200)
+				.send({
+					user: userDatabase,
+					appointment: appointmentDatabase
+				})
+			}
+			catch(err){
+				res.status(400)
+				.send({
+					message: "database error",
+					error:err
+				})
+			}
 		})
 		app.use('/auth',autentication);
 		app.use('/admin/appointment',appointment);

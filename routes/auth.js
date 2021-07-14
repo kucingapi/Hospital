@@ -1,8 +1,8 @@
 const express = require('express');
 const { addingUser, loginUser} = require('./handler/user');
 const {RegisterValidation, LoginValidation} = require('./validation/userValidation');
-const router = express.Router();
 
+const router = express.Router();
 
 router.post('/register',RegisterValidation,addingUser);
 router.post('/login',LoginValidation,loginUser);
