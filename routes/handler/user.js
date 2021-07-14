@@ -43,7 +43,7 @@ const loginUser = async (req,res) => {
 	const body = req.body;
 	const user = await User.findOne({_id:body.username})
 		.catch((err)=>{
-			res.status(404).send({
+			return res.status(404).send({
 				status:"failed",
 				error: err
 			});
