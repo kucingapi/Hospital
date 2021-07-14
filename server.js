@@ -1,26 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 // routes
-const autentication = require('./routes/auth')
-const appointment = require('./routes/appointment')
-const patient = require('./routes/patient')
+const autentication = require('./routes/auth');
+const appointment = require('./routes/appointment');
+const patient = require('./routes/patient');
 
 // variable
 const env = require('dotenv').config();
 const uri = process.env.uri || env.parsed.uri;
 const app = express();
-const port = process.env.PORT||3000;
+const port = process.env.PORT||2999;
 
 
 async function startApp(){
 	try{
 		app.use(express.json());
-		app.all('/', function(req, res, next) {
-			res.header("Access-Control-Allow-Origin", "*");
-			res.header("Access-Control-Allow-Headers", "X-Requested-With");
-			next();
-		});
+		app.use(cors({
+			origin:'*'
+		}));
 
 		// Routes
 		app.get('/',(req,res)=>{
