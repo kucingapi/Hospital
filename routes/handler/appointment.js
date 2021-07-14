@@ -40,7 +40,14 @@ const creatingAppointment = async (req,res) => {
 
 const updatingAppointment = async (req,res) => {
 	const body = req.body;
-	const appointment = await Appointment.findOne({_id:req.params._id});
+	const appointment = await Appointment.findOne({_id:req.params._id}).catch((err) =>{
+			res.status(400);
+			res.send({
+				status:'failed',
+				message:'error',
+				detail: err
+			});
+	});
 
 	function changeAppointment(item,itemName){
 		if(item){
@@ -75,7 +82,14 @@ const updatingAppointment = async (req,res) => {
 
 const deletingAppointment = async (req,res) => {
 	const id = req.params._id;
-	const appointment = await Appointment.findOne({_id: id});
+	const appointment = await Appointment.findOne({_id: id}).catch((err) => {
+		res.status(400);
+		res.send({
+			status:'failed',
+			message:'error',
+			detail: err
+		});
+	});
 	if(isAppointmentExist(appointment,res)) return null;
 	const message = await Appointment.deleteOne({_id: id});
 
