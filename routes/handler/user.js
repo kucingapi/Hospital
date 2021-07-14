@@ -14,7 +14,8 @@ const addingUser = async (req,res) => {
 		first_name: body.first_name,
 		last_name: body.last_name,
 		age: body.age,
-		password: await hashingPassword(body.password),
+		password: await hashingPassword(body.password).catch((err)=>{return res.end({err})})
+		,
 		roles:'user'
 	});
 
@@ -58,7 +59,14 @@ const loginUser = async (req,res) => {
 		res.status(400);
 		return null;
 	}
-	const isPasswordValid = await passwordValidation(body.password,user.password);
+	const isPasswordValid = await passwordValidation(body.password,user.password)
+		.catch((err)=>{
+			return res.status(404).send({
+				status:"failed",
+				error: err
+			});
+		});
+	
 
 	if(isPasswordValid){
 
