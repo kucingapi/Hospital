@@ -15,6 +15,7 @@ const UserSchemaValidation = (body) => {
 }
 
 const LoginSchemaValidation = (body) => {
+	console.log(body);
 	const validateUser = Joi.object({
 		username: Joi.string().min(3).required(),
 		password: Joi.string().min(5).required()
