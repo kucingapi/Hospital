@@ -50,7 +50,6 @@ const loginUser = async (req,res) => {
 			});
 		});
 	;
-	console.log(user);
 	if(!user){
 		res.send({
 			status:'failed',
