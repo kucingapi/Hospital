@@ -15,9 +15,11 @@ const port = process.env.PORT||3000;
 
 async function startApp(){
 	try{
-		console.log(process.env.uri)
 		app.use(express.json());
 		// Routes
+		app.get('/',(req,res)=>{
+			res.send({message:'this is home'})
+		})
 		app.use('/auth',autentication);
 		app.use('/admin/appointment',appointment);
 		app.use('/dashboard',patient);
